@@ -1,0 +1,193 @@
+[31mWarning
+[0mMCPackageLoader(Object)>>notify:
+MCPackageLoader>>warnAboutDependencies
+MCPackageLoader>>validate
+MCPackageLoader>>loadWithNameLike:
+MCVersionLoader>>loadWithNameLike:
+[ 
+| version |
+version := versions first.
+self ensurePackage: version package.
+self loadWithNameLike: version info name ] in MCVersionLoader>>load in Block: [ ...
+BlockClosure>>ensure:
+RPackageSet class>>withCacheDo:
+MCVersionLoader>>load
+MetacelloGoferLoad(GoferLoad)>>execute
+[ 
+"mcLoader preLoad: packageSpec."
+goferLoad := MetacelloGoferLoad on: aGofer.
+goferLoad addResolved: resolvedReference.
+goferLoad execute.
+MetacelloPlatform current clearCurrentVersionCache	"mcLoader postLoad: packageSpec" ] in loadPackageDirective: aPackageLoadDirective gofer: aGofer
+	| packageSpec |
+	packageSpec := aPackageLoadDirective spec.
+	MetacelloPlatform current
+		do: [ 
+			| loadBlock goferLoad answers resolvedReference |
+			aGofer disablePackageCache.	"for good luck:)"
+			resolvedReference := self resolvePackageSpec: packageSpec gofer: aGofer.
+			resolvedReference isNil
+				ifTrue: [ 
+					"Package version already loaded into image"
+					^ self ].
+			loadBlock := [ 
+			"mcLoader preLoad: packageSpec."
+			goferLoad := MetacelloGoferLoad on: aGofer.
+			goferLoad addResolved: resolvedReference.
+			goferLoad execute.
+			MetacelloPlatform current clearCurrentVersionCache	"mcLoader postLoad: packageSpec" ].
+			(answers := packageSpec answers) notEmpty
+				ifTrue: [ loadBlock valueSupplyingMetacelloAnswers: answers ]
+				ifFalse: [ loadBlock value ].
+			resolvedReference workingCopy repositoryGroup addRepository: aPackageLoadDirective repository.
+			Transcript
+				cr;
+				show:
+						'Loaded -> ' , resolvedReference name , ' --- ' , aPackageLoadDirective repository description , ' --- '
+								, resolvedReference repository description ]
+		displaying: 'Loading ' , packageSpec file in MetacelloLoadingMCSpecLoader(MetacelloCommonMCSpecLoader)>>loadPackageDirective:gofer: in Block: [ ...
+loadPackageDirective: aPackageLoadDirective gofer: aGofer
+	| packageSpec |
+	packageSpec := aPackageLoadDirective spec.
+	MetacelloPlatform current
+		do: [ 
+			| loadBlock goferLoad answers resolvedReference |
+			aGofer disablePackageCache.	"for good luck:)"
+			resolvedReference := self resolvePackageSpec: packageSpec gofer: aGofer.
+			resolvedReference isNil
+				ifTrue: [ 
+					"Package version already loaded into image"
+					^ self ].
+			loadBlock := [ 
+			"mcLoader preLoad: packageSpec."
+			goferLoad := MetacelloGoferLoad on: aGofer.
+			goferLoad addResolved: resolvedReference.
+			goferLoad execute.
+			MetacelloPlatform current clearCurrentVersionCache	"mcLoader postLoad: packageSpec" ].
+			(answers := packageSpec answers) notEmpty
+				ifTrue: [ loadBlock valueSupplyingMetacelloAnswers: answers ]
+				ifFalse: [ loadBlock value ].
+			resolvedReference workingCopy repositoryGroup addRepository: aPackageLoadDirective repository.
+			Transcript
+				cr;
+				show:
+						'Loaded -> ' , resolvedReference name , ' --- ' , aPackageLoadDirective repository description , ' --- '
+								, resolvedReference repository description ]
+		displaying: 'Loading ' , packageSpec file in MetacelloLoadingMCSpecLoader(MetacelloCommonMCSpecLoader)>>loadPackageDirective:gofer: in Block: loadPackageDirective: aPackageLoadDirective gofer:...etc...
+MetacelloPharo30Platform(MetacelloPlatform)>>do:displaying:
+MetacelloLoadingMCSpecLoader(MetacelloCommonMCSpecLoader)>>loadPackageDirective:gofer:
+MetacelloLinearLoadDirective(MetacelloVersionLoadDirective)>>loadPackageDirective:gofer:
+MetacelloPackageLoadDirective>>loadUsing:gofer:
+[ :directive | directive loadUsing: aLoaderDirective gofer: aGofer ] in MetacelloLinearLoadDirective(MetacelloVersionLoadDirective)>>loadLinearLoadDirective:gofer: in Block: [ :directive | directive loadUsing: aLoaderDirecti...etc...
+OrderedCollection>>do:
+MetacelloLinearLoadDirective(MetacelloVersionLoadDirective)>>loadLinearLoadDirective:gofer:
+MetacelloLinearLoadDirective>>loadUsing:gofer:
+[ :directive | directive loadUsing: aLoaderDirective gofer: aGofer ] in MetacelloLinearLoadDirective(MetacelloVersionLoadDirective)>>loadLinearLoadDirective:gofer: in Block: [ :directive | directive loadUsing: aLoaderDirecti...etc...
+OrderedCollection>>do:
+MetacelloLinearLoadDirective(MetacelloVersionLoadDirective)>>loadLinearLoadDirective:gofer:
+MetacelloLinearLoadDirective>>loadUsing:gofer:
+MetacelloLinearLoadDirective(MetacelloVersionLoadDirective)>>loadWithPolicy:
+MetacelloLoaderPolicy>>load
+MetacelloFetchingMCSpecLoader>>doLoad
+[ fetchLoader doLoad ] in [ 
+| fetchLoader |
+fetchLoader := self fetchRequiredFromArray: (self defaultPackageNamesToLoad: anArray).
+MetacelloPlatform current do: [ fetchLoader doLoad ] displaying: 'Loading ' , displayString.
+Transcript
+	cr;
+	show: '...finished ' , self versionNumber printString.
+^ fetchLoader ] in MetacelloMCVersion>>doLoadRequiredFromArray: in Block: [ fetchLoader doLoad ]
+MetacelloPharo30Platform(MetacelloPlatform)>>do:displaying:
+[ 
+| fetchLoader |
+fetchLoader := self fetchRequiredFromArray: (self defaultPackageNamesToLoad: anArray).
+MetacelloPlatform current do: [ fetchLoader doLoad ] displaying: 'Loading ' , displayString.
+Transcript
+	cr;
+	show: '...finished ' , self versionNumber printString.
+^ fetchLoader ] in MetacelloMCVersion>>doLoadRequiredFromArray: in Block: [ ...
+[0m[31mMetacelloProjectSpecLoadError: No version found for '3.0.8' of ConfigurationOfGlamour because: Version '3.0.8' is not defined in ConfigurationOfGlamour. Possible versions include: #(#bleedingEdge #development #stable '2.0-beta.1-baseline' '2.0-beta.1' '2.0-beta.2-baseline' '2.0-beta.2' '2.0-beta.3-baseline' '2.0-beta.3' '2.0-beta.4-baseline' '2.0-beta.4' '2.0-beta.5-baseline' '2.0-beta.5' '2.0-beta.6-baseline' '2.0-beta.6' '2.0-beta.7' '2.0-beta.8' '2.0.6' '2.1-baseline' '2.1' '2.2-baseline' '2.2' '2.3-baseline' '2.3' '2.4-baseline' '2.4' '2.5-baseline' '2.5-snapshot' '2.6-baseline' '2.6-snapshot' '2.7-baseline' '2.7' '2.8-baseline' '2.9-baseline' '2.71' '2.72' '2.73' '2.74' '2.75' '2.76' '2.77' '2.91-baseline' '2.92-baseline' '2.93-baseline' '2.94-baseline' '2.95-baseline' '3.0-baseline' '3.0.0' '3.0.1' '3.0.2' '3.0.3' '3.0.4' '3.0.5' '3.0.6' '3.0.7' '3.1-baseline' '3.2-baseline' '3.3-baseline' '3.3.0')
+[0m[ :ex | 
+^ (MetacelloProjectSpecLoadError projectSpec: self)
+	versionDoesNotExistException: ex;
+	signal:
+			'No version found for ' , self versionString printString , ' of ' , self className asString , ' because: '
+					, ex description ] in MetacelloMCProjectSpec>>loadVersion: in Block: [ :ex | ...
+BlockClosure>>cull:
+Context>>evaluateSignal:
+Context>>handleSignal:
+MetacelloVersionDoesNotExistError(Exception)>>signal
+[ (MetacelloVersionDoesNotExistError project: self project versionString: aVersionString) signal ] in MetacelloMCProject(MetacelloProject)>>version: in Block: [ (MetacelloVersionDoesNotExistError project: self...etc...
+[ ^ aBlock value ] in [ 
+(MetacelloVersionDefinitionError project: self project versionString: aVersionString)
+	exception: (self errorMap at: aVersionString ifAbsent: [ ^ aBlock value ]);
+	signal ] in MetacelloMCProject(MetacelloProject)>>lookupVersion:ifAbsent: in Block: [ ^ aBlock value ]
+Dictionary>>at:ifAbsent:
+[ 
+(MetacelloVersionDefinitionError project: self project versionString: aVersionString)
+	exception: (self errorMap at: aVersionString ifAbsent: [ ^ aBlock value ]);
+	signal ] in MetacelloMCProject(MetacelloProject)>>lookupVersion:ifAbsent: in Block: [ ...
+Dictionary>>at:ifAbsent:
+MetacelloMCProject(MetacelloProject)>>lookupVersion:ifAbsent:
+MetacelloMCProject(MetacelloProject)>>version:
+MetacelloMCProjectSpec>>version
+[ vrsn := self version ] in MetacelloMCProjectSpec>>loadVersion: in Block: [ vrsn := self version ]
+BlockClosure>>on:do:
+MetacelloMCProjectSpec>>loadVersion:
+MetacelloProjectSpecForLoad>>performLoad
+MetacelloMCProjectSpec(MetacelloGenericProjectSpec)>>load
+MetacelloProjectReferenceSpec>>loadUsing:gofer:
+[ :pkg | pkg loadUsing: self gofer: gofer ] in MetacelloFetchingMCSpecLoader(MetacelloCommonMCSpecLoader)>>linearLoadPackageSpecs:repositories: in Block: [ :pkg | pkg loadUsing: self gofer: gofer ]
+OrderedCollection>>do:
+MetacelloFetchingMCSpecLoader(MetacelloCommonMCSpecLoader)>>linearLoadPackageSpecs:repositories:
+[ super linearLoadPackageSpecs: packageSpecs repositories: repositories ] in MetacelloFetchingMCSpecLoader>>linearLoadPackageSpecs:repositories: in Block: [ super linearLoadPackageSpecs: packageSpecs repos...etc...
+BlockClosure>>ensure:
+MetacelloLoaderPolicy>>pushLoadDirective:during:
+MetacelloLoaderPolicy>>pushLinearLoadDirectivesDuring:for:
+MetacelloFetchingMCSpecLoader>>linearLoadPackageSpecs:repositories:
+MetacelloFetchingMCSpecLoader(MetacelloCommonMCSpecLoader)>>load
+MetacelloMCVersionSpecLoader>>load
+MetacelloMCVersion>>executeLoadFromArray:
+[0m[31mMetacelloProjectSpecLoadError: No version found for '12' of ConfigurationOfNeoCSV because: Version '12' is not defined in ConfigurationOfNeoCSV. Possible versions include: #(#bleedingEdge #stable '1-baseline' '1' '2' '3' '4' '5' '6' '7' '8' '9' '10' '11')
+[0m[ :ex | 
+^ (MetacelloProjectSpecLoadError projectSpec: self)
+	versionDoesNotExistException: ex;
+	signal:
+			'No version found for ' , self versionString printString , ' of ' , self className asString , ' because: '
+					, ex description ] in MetacelloMCProjectSpec>>loadVersion: in Block: [ :ex | ...
+BlockClosure>>cull:
+Context>>evaluateSignal:
+Context>>handleSignal:
+MetacelloVersionDoesNotExistError(Exception)>>signal
+[ (MetacelloVersionDoesNotExistError project: self project versionString: aVersionString) signal ] in MetacelloMCProject(MetacelloProject)>>version: in Block: [ (MetacelloVersionDoesNotExistError project: self...etc...
+[ ^ aBlock value ] in [ 
+(MetacelloVersionDefinitionError project: self project versionString: aVersionString)
+	exception: (self errorMap at: aVersionString ifAbsent: [ ^ aBlock value ]);
+	signal ] in MetacelloMCProject(MetacelloProject)>>lookupVersion:ifAbsent: in Block: [ ^ aBlock value ]
+Dictionary>>at:ifAbsent:
+[ 
+(MetacelloVersionDefinitionError project: self project versionString: aVersionString)
+	exception: (self errorMap at: aVersionString ifAbsent: [ ^ aBlock value ]);
+	signal ] in MetacelloMCProject(MetacelloProject)>>lookupVersion:ifAbsent: in Block: [ ...
+Dictionary>>at:ifAbsent:
+MetacelloMCProject(MetacelloProject)>>lookupVersion:ifAbsent:
+MetacelloMCProject(MetacelloProject)>>version:
+MetacelloMCProjectSpec>>version
+[ vrsn := self version ] in MetacelloMCProjectSpec>>loadVersion: in Block: [ vrsn := self version ]
+BlockClosure>>on:do:
+MetacelloMCProjectSpec>>loadVersion:
+MetacelloProjectSpecForLoad>>performLoad
+MetacelloMCProjectSpec(MetacelloGenericProjectSpec)>>load
+MetacelloProjectReferenceSpec>>loadUsing:gofer:
+[ :pkg | pkg loadUsing: self gofer: gofer ] in MetacelloFetchingMCSpecLoader(MetacelloCommonMCSpecLoader)>>linearLoadPackageSpecs:repositories: in Block: [ :pkg | pkg loadUsing: self gofer: gofer ]
+OrderedCollection>>do:
+MetacelloFetchingMCSpecLoader(MetacelloCommonMCSpecLoader)>>linearLoadPackageSpecs:repositories:
+[ super linearLoadPackageSpecs: packageSpecs repositories: repositories ] in MetacelloFetchingMCSpecLoader>>linearLoadPackageSpecs:repositories: in Block: [ super linearLoadPackageSpecs: packageSpecs repos...etc...
+BlockClosure>>ensure:
+MetacelloLoaderPolicy>>pushLoadDirective:during:
+MetacelloLoaderPolicy>>pushLinearLoadDirectivesDuring:for:
+MetacelloFetchingMCSpecLoader>>linearLoadPackageSpecs:repositories:
+MetacelloFetchingMCSpecLoader(MetacelloCommonMCSpecLoader)>>load
+MetacelloMCVersionSpecLoader>>load
+MetacelloMCVersion>>executeLoadFromArray:
+[0m
